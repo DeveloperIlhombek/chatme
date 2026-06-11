@@ -24,6 +24,7 @@ export const useAuthStore = create<AuthState>(set => ({
 		set({ isLoading: true, error: null })
 		try {
 			const tokenRes = await authApi.login(data)
+			localStorage.setItem('access_token', tokenRes.access_token)
 			document.cookie = `access_token=${tokenRes.access_token}; path=/`
 			const user = await usersApi.getMe()
 			set({ user, isLoading: false })
@@ -44,6 +45,7 @@ export const useAuthStore = create<AuthState>(set => ({
 				username: data.username,
 				password: data.password,
 			})
+			localStorage.setItem('access_token', tokenRes.access_token)
 			document.cookie = `access_token=${tokenRes.access_token}; path=/`
 			const user = await usersApi.getMe()
 			set({ user, isLoading: false })
